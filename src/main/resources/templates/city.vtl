@@ -1,5 +1,5 @@
 <h1>$city.getCityName() job opening:</h1>
-
+<a href="/cities/$city.getId()/jobOpenings/new">Add a new job opening</a>
 <ul>
   #foreach($jobOpening in $city.getJobOpenings())
    <li>$jobOpening.getTitle()
@@ -12,5 +12,14 @@
   #end
 </ul>
 
-<a href="/cities/$city.getId()/jobOpenings/new">Add a new job opening</a>
+<form action="/cities/search" method="post">
+  <div class="form-group">
+    <input id="cityId" name="cityId" type="hidden" value="$city.getId()">
+
+    <label for="search">Enter a term to search for</label>
+    <input type="text" name="search" id="search" class="form-control">
+  </div>
+  <button type="submit" class="btn btn-primary">Search!</button>
+</form>
+
 <a href="/cities">All Cities</a>

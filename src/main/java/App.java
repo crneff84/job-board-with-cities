@@ -2,6 +2,9 @@ import java.util.HashMap;
 import java.util.Map;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
+import java.util.stream.Collectors;
+import java.util.Objects;
+import java.util.List;
 import static spark.Spark.*;
 
 public class App {
@@ -36,6 +39,19 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    post("/cities/search", (request, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      City city = City.find(Integer.parseInt(request.queryParams("cityId")));
+      String searchTerm = request.queryParams("search").trim().toLowerCase();
+      List<JobOpening> result = city.getJobOpenings().stream()
+      .filter(jobOpening -> (jobOpening.getDescription().toLowerCase().contains(searchTerm) || jobOpening.getTitle().toLowerCase().contains(searchTerm)))
+      .collect(Collectors.toList());
+      model.put("city", city);
+      model.put("results", result);
+      model.put("template", "templates/search.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
     post("/cities", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       String name = request.queryParams("name");
@@ -66,7 +82,6 @@ public class App {
       model.put("template", "templates/city-jobOpenings-form.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
-
 
   }
 }

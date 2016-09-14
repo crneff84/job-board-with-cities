@@ -1,0 +1,16 @@
+<h1>Your search results</h1>
+
+<p>Found $results.size() job openings in $city.getCityName()</p>
+
+<ul>
+  #foreach($jobOpening in $results)
+   <li>$jobOpening.getTitle()
+     <ul>
+       <li>Contact Info: $jobOpening.getContactInfo()</li>
+       <li>Description: $jobOpening.getDescription()</li>
+     </ul>
+   </li>
+  #end
+</ul>
+
+<a href="/cities/$city.getId()">Back to $city.getCityName()</a>
