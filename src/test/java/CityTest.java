@@ -45,6 +45,11 @@ public class CityTest{
   }
 
   @Test
+  public void find_returnsNullWhenNoTaskFound_null() {
+    assertTrue(City.find(999) == null);
+  }
+
+  @Test
   public void getJobOpenings_intiallyReturnsEmptyList_0() {
     City.clear();
     City testCity = new City("Portland");

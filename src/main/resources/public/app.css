@@ -1,0 +1,24 @@
+body {
+  background-color: papayawhip;
+  font-family: 'Sigmar One', cursive;
+  font-size: medium;
+  letter-spacing: .7px;
+}
+
+h1, h2 {
+  font-family: 'Chewy', cursive;
+  color: rebeccapurple;
+}
+
+form {
+  margin: 2rem 0;
+  width: 60%;
+}
+
+li ul li {
+  list-style-type: none;
+}
+
+li ul{
+  padding-left: 1.5rem;
+}

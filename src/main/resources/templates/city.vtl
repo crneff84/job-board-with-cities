@@ -1,25 +1,29 @@
-<h1>$city.getCityName() job opening:</h1>
-<a href="/cities/$city.getId()/jobOpenings/new">Add a new job opening</a>
-<ul>
-  #foreach($jobOpening in $city.getJobOpenings())
-   <li>$jobOpening.getTitle()
-     <ul>
-       <li>Contact Info: $jobOpening.getContactInfo()</li>
-       <li>Description: $jobOpening.getDescription()</li>
-     </ul>
-   </li>
+#if($city)
+  <h1>$city.getCityName() job opening:</h1>
+  <a href="/cities/$city.getId()/jobOpenings/new">Add a new job opening</a>
+  <hr>
+  <ul>
+    #foreach($jobOpening in $city.getJobOpenings())
+     <li><strong>$jobOpening.getTitle()</strong>
+       <ul>
+         <li>Contact Info: $jobOpening.getContactInfo()</li>
+         <li>Description: $jobOpening.getDescription()</li>
+       </ul>
+     </li>
 
-  #end
-</ul>
+    #end
+  </ul>
 
-<form action="/cities/search" method="post">
-  <div class="form-group">
-    <input id="cityId" name="cityId" type="hidden" value="$city.getId()">
+  <form action="/cities/search" method="post">
+    <div class="form-group">
+      <input id="cityId" name="cityId" type="hidden" value="$city.getId()">
 
-    <label for="search">Enter a term to search for</label>
-    <input type="text" name="search" id="search" class="form-control">
-  </div>
-  <button type="submit" class="btn btn-primary">Search!</button>
-</form>
-
+      <label for="search">Enter a term to search for (for multiple terms separate with a space only)</label>
+      <input type="text" name="search" id="search" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Search!</button>
+  </form>
+#else
+  <em><p>Oops! We can't seem to find that City.</p></em>
+#end
 <a href="/cities">All Cities</a>

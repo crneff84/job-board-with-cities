@@ -42,10 +42,19 @@ public class App {
     post("/cities/search", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       City city = City.find(Integer.parseInt(request.queryParams("cityId")));
-      String searchTerm = request.queryParams("search").trim().toLowerCase();
-      List<JobOpening> result = city.getJobOpenings().stream()
-      .filter(jobOpening -> (jobOpening.getDescription().toLowerCase().contains(searchTerm) || jobOpening.getTitle().toLowerCase().contains(searchTerm)))
-      .collect(Collectors.toList());
+      String[] searchTerms = request.queryParams("search").trim().toLowerCase().split(" ");
+      List<JobOpening> result = null;
+      for(int i = 0; i < searchTerms.length; i++){
+        String searchTerm = searchTerms[i];
+        if(i == 0){
+          result = city.getJobOpenings().stream()
+          .filter(jobOpening -> (jobOpening.getDescription().toLowerCase().contains(searchTerm) || jobOpening.getTitle().toLowerCase().contains(searchTerm)))
+          .collect(Collectors.toList());
+        } else {
+          result = result.stream().filter(jobOpening -> (jobOpening.getDescription().toLowerCase().contains(searchTerm) || jobOpening.getTitle().toLowerCase().contains(searchTerm)))
+          .collect(Collectors.toList());
+        }
+      }
       model.put("city", city);
       model.put("results", result);
       model.put("template", "templates/search.vtl");
